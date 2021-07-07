@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ROOT=/home/johannes/dev/lwjgl3-port
+ROOT=/usr/home/cameron/Documents/lwjgl3-port
 
 LWJGL_JLP_OVRD="${ROOT}/native-libs:${ROOT}/lwjgl3/bin/libs:/usr/local/lib:/usr/lib"
 
@@ -11,38 +11,30 @@ LWJGL_GLFW_OVRD="${ROOT}/lwjgl3/bin/RELEASE/lwjgl-glfw/lwjgl-glfw.jar"
 LWJGL_STB_OVRD="${ROOT}/lwjgl3/bin/RELEASE/lwjgl-stb/lwjgl-stb.jar"
 LWJGL_JEM_OVRD="${ROOT}/lwjgl3/bin/RELEASE/lwjgl-jemalloc/lwjgl-jemalloc.jar"
 
-export JAVA_HOME=/usr/local/openjdk8
-
-echo CMD IN: ${@}
+# Use openjdk16 for 1.17 support
+export JAVA_HOME=/usr/local/openjdk16
 
 build_classpath() {
-    echo build_classpath called with $@
     local IFS=":"
     for p in ${1}
     do
         case "${p}" in
-            *lwjgl-3.1.6.jar)
-		echo set $p = ${LWJGL_OVRD}
+            *lwjgl-3.2.2.jar)
 		cp="${cp}:${LWJGL_OVRD}"
 		;;
 	    *lwjgl-opengl*)
-		echo set $p = ${LWJGL_OGL_OVRD}
 		cp="${cp}:${LWJGL_OGL_OVRD}"
 		;;
 	    *lwjgl-openal*)
-		echo set $p = ${LWJGL_OAL_OVRD}
 		cp="${cp}:${LWJGL_OAL_OVRD}"
 		;;
 	    *lwjgl-glfw*)
-		echo set $p = ${LWJGL_GLFW_OVRD}
 		cp="${cp}:${LWJGL_GLFW_OVRD}"
 		;;
 	    *lwjgl-stb*)
-		echo set $p = ${LWJGL_STB_OVRD}
 		cp="${cp}:${LWJGL_STB_OVRD}"
 		;;
 	    *lwjgl-jemalloc*)
-		echo set $p = ${LWJGL_JEM_OVRD}
 		cp="${cp}:${LWJGL_JEM_OVRD}"
 		;;
             *)
@@ -55,10 +47,8 @@ build_classpath() {
 
 for var in "${@}"
 do
-    echo for var ${var}
     case "${var}" in
     -Djava.library*)
-	echo set library path
         args="${args} -Djava.library.path=${LWJGL_JLP_OVRD}"
         ;;
     *lwjgl-opengl*)
@@ -71,6 +61,4 @@ do
     esac
 done
 
-echo CMD OUT: ${args}
-
-${JAVA_HOME}/jre/bin/java ${args}
+${JAVA_HOME}/bin/java ${args}
