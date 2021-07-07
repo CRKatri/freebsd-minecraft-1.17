@@ -17,7 +17,7 @@ echo Cloning dependencies...
 GIT_OPTIONS="--single-branch --depth 1"
 
 # main repo
-git clone -b 'freebsd-3.2.2-working' ${GIT_OPTIONS} git@github.com:CRKatri/lwjgl3.git
+git clone -b 'freebsd-3.2.2' ${GIT_OPTIONS} git@github.com:CRKatri/lwjgl3.git
 
 ln -sf /usr/local/lib/libopenal.so ${LIBS}/
 ln -sf /usr/local/lib/libglfw.so ${LIBS}/
